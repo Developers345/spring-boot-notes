@@ -23,8 +23,6 @@
   (i.e., based on what libraries are present in the classpath, Spring Boot assumes the required modules and configures them, e.g., Spring JDBC).
 - If the requirements diverge from default configurations, we can **easily override and customize** them with minimal effort.
 
-Here is your content in **Markdown (.md)** format:
-
 # Features of Spring Boot
 
 ## 1. Auto-Configuration (Definition)

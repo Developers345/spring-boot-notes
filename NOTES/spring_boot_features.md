@@ -49,7 +49,7 @@ If there are **divergent or custom requirements**, developers can **override the
 
 - Spring Boot also allows developers to **disable auto-configuration classes** and **provide custom auto-configuration implementations** when needed.
 
-# Pictrial Respresentation - Auto-Configuration
+# Pictorial Respresentation - Auto-Configuration
 
 <img width="1919" height="603" alt="Auto configuration featue in spring boot" src="https://github.com/user-attachments/assets/ea3c4e7d-1002-4283-bb0b-9fb36bbb660b" />
 

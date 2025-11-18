@@ -49,6 +49,59 @@ If there are **divergent or custom requirements**, developers can **override the
 
 - Spring Boot also allows developers to **disable auto-configuration classes** and **provide custom auto-configuration implementations** when needed.
 
+
+### In Auto-Configuration there are 2 parts:
+1. **Configuration**
+   - Our class components of our application → we can write stereotype annotations
+   - Framework / Third-party libraries → Java Configuration class (development time / complexity / cost is high)
+
+---
+
+### DriverManagerDataSource
+Since it is a framework class, how to configure and what properties of this class should be populated with values in order to use it is well-known to the framework.  
+As it is a well-known class of Spring Framework, let Spring take care of configuring its components with defaults automatically instead of us writing the configuration manually.  
+This is called **"Self-tuning to fit the application requirement."**
+
+---
+
+### Auto-Configuration Behavior
+
+By default, not all components of the framework will be configured.  
+Spring Boot determines which components should be auto-configured by **scanning for dependencies in the classpath**.
+
+Example:
+- If we add **Spring JDBC** as a dependency, Spring Boot looks for **h2.jar** (Java in-memory DB).
+- If that dependency exists in the classpath, Spring Boot understands we are using Spring JDBC with H2 DB and automatically configures **DriverManagerDataSource**, populates H2 properties, and creates **JdbcTemplate** by injecting DriverManagerDataSource.
+
+---
+
+### Opinionated View
+
+Spring Boot auto-configurations work on an **opinionated view**, meaning:
+- It scans the classpath
+- Tries to understand required bean definitions
+- Configures them automatically
+
+---
+
+### When Auto-Configuration Fails
+
+If something does not match the defaults, for example:
+- We use Spring JDBC, but instead of **H2 database**, our classpath contains **mysql-connector-java-5.12.jar**
+- Auto-configuration fails
+
+In such cases:
+- We need to manually configure components as bean definitions, which brings back the original effort.
+- Instead, we can provide custom values via a **properties file (application.properties / application.yml)**.
+- Spring Boot then uses these values to configure components quickly and correctly.
+
+---
+
+### Disabling Auto-Configuration
+
+If we do not want Spring Boot to configure beans using defaults:
+- We can **disable auto-configuration** easily.
+
 # Pictorial Respresentation - Auto-Configuration
 
 <img width="1919" height="603" alt="Auto configuration featue in spring boot" src="https://github.com/user-attachments/assets/ea3c4e7d-1002-4283-bb0b-9fb36bbb660b" />

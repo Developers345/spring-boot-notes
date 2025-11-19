@@ -89,3 +89,33 @@ Spring Boot Initializr can be accessed and utilized in two primary ways:
   - Direct dependency selection  
   - Immediate project import and build setup  
 
+
+# Dev Tools
+--------------
+
+- It supports **hot code replacement** in JVM memory so that whenever we make changes in the code during development or debugging, the changes will be automatically reflected **without restarting the application server**. This greatly reduces the development and debugging time of the application.
+
+- Hot Code Replacement support is added through a JVM classloader provided by DevTools. This classloader takes care of **reloading modified classes into JVM memory** without needing a server restart.
+
+- The **"Hot Code Replacement classloader"** is loaded into JVM memory by DevTools.
+
+- **"LiveReload"** is a plugin that takes care of **refreshing the user interface (browser)** automatically whenever server-side changes are made.
+
+
+# Embedded Servlet Container
+-----------------------------
+
+- Web Application → WAR → Deploy → Servlet Container (Tomcat)  
+  This is the **traditional deployment approach**.
+
+- The servlet container must be **installed and configured manually** so your code can be deployed and run on it.
+
+- In DevOps pipelines (CI/CD), this traditional approach adds more complexity and setup time.
+
+- From a development perspective, it also takes more time to set up the required infrastructure.
+
+- With **Microservices architecture**, each service should be isolated and run independently.
+
+- Instead of relying on external infrastructure, your application can run with an **embedded servlet container** by simply **adding it as a dependency** in your project.  
+  This means the container runs *as part of your code*, eliminating the need for separate installation and configuration.
+```

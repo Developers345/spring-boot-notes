@@ -443,4 +443,164 @@ Without creating the jar file multiple times, you can test using:
 java -cp "spring-app.jar;lib/*" com.blc.beans.Application
 ```
 
+- Always when we distribute the application it is recommended to package it into one single file and distribute to the customer.
+
+## Advantages of Distributed JAR as a Single Package
+1. Easy to copy and transfer  
+2. No chance of corruption / missing files in order to execute  
+3. Checksum validations can be enforced for the whole application  
+
+## JAR Structure (Distributed as Single JAR File)
+```
+
+app.jar
+├─ **META-INF**
+│   └─ **manifest.mf**
+│        Main-Class: Application
+│        Class-Path: lib/spring-core-5.0.RELEASE.jar lib/spring-context-5.0.RELEASE.jar
+├─ **lib**
+│   ├─ spring-core-5.0.RELEASE.jar
+│   └─ spring-context-5.0.RELEASE.jar
+├─ Toy.class
+└─ Application.class
+
+```
+- Unfortunately, the above structure will fail to execute because core Java JAR does not support reading a JAR inside another JAR when using `java -jar app.jar`.
+
+- The classes inside the JAR file are loaded by the **JarClassLoader** into JVM memory, and it does **not** support loading nested JARs.
+
+## How to Overcome This Problem
+- In the industry, people use a technique to distribute a JAR as a single packaged distribution using the **Uber/Fat JAR** concept.
+
+## Uber / Fat JAR Structure
+```
+
+app.jar
+├─ META-INF
+│   └─ manifest.mf
+│        Main-Class: Application
+├─ Application.class
+├─ Toy.class
+├─ [All Spring Framework JAR classes extracted and placed inside our JAR]
+└─ org
+└─ springframework
+└─ context
+├─ ApplicationContext.class
+├─ ClassPathXmlApplicationContext.class
+└─ *.class
+
+```
+
+## Problems with Fat / Uber JAR
+- We cannot easily determine which third-party libraries and versions are included by just looking at the JAR file.  
+- If we want to upgrade dependent JAR versions, we must repackage the **entire JAR**, which takes time.
+
+---
+
+- To solve the Uber/Fat JAR problems, Spring Boot comes with the **“Spring Boot Executable JAR”** format.
+
+
+# Spring Boot Executable JAR
+
+- As we cannot package a JAR inside another JAR because the **Jar ClassLoader** doesn't load nested JAR classes, we must package everything as an Uber/Fat JAR.  
+- But this has limitations, so Spring introduced the **Spring Boot Executable JAR** standard.
+
+- Spring Boot provides its own ClassLoaders capable of loading `.class` files from JARs inside another JAR based on a well-defined directory structure.
+
+## Spring Boot ClassLoader Structure
+```
+
+org.springframework.boot.Launcher
+├─ JarLauncher
+└─ WarLauncher
+
+```
+
+- These are the two implementations of the `Launcher` interface that Spring Boot uses for running JAR or WAR files.
+
+---
+
+# Spring Boot Executable JAR Structure
+```
+
+app.jar
+├─ META-INF
+│    └─ manifest.mf
+│         └─ Main-Class: JarLauncher
+├─ BOOT-INF
+├─ classes
+│    ├─ Application.class
+│    └─ Toy.class
+├─ lib
+│    ├─ spring-core-5.0.RELEASE.jar
+│    └─ spring-context-5.0.RELEASE.jar
+└─ org
+└─ springframework
+└─ boot
+├─ Launcher.class
+├─ JarLauncher.class
+└─ WarLauncher.class
+
+```
+
+---
+
+# How Spring Boot Executable JAR Works Internally
+
+### Command:
+```
+
+java -jar app.jar
+
+```
+
+### Execution Flow:
+1. JVM's default classloader begins loading classes.  
+2. It looks into `META-INF/manifest.mf` for the `Main-Class`.  
+3. The manifest specifies:
+```
+
+Main-Class: JarLauncher
+
+```
+4. The JVM loads **JarLauncher** and calls its `main()` method.  
+5. Inside `JarLauncher`, Spring Boot has logic to:
+- read classes in `BOOT-INF/classes`
+- read JARs inside `BOOT-INF/lib`
+- load all of them into JVM memory  
+6. After loading everything, **JarLauncher invokes your application’s `main()` method**.
+
+---
+
+# How Does JarLauncher Know the Application Class?
+
+This is handled through the **`@SpringBootApplication`** annotation and the build process.
+
+---
+
+# spring-boot-maven-plugin
+
+```
+
+spring-boot-maven-plugin
+└─ executions
+└─ execution
+├─ goal: repackage
+└─ phase: package
+
+```
+
+### Key Points:
+- Maven's **Jar Plugin** creates the normal JAR.
+- **spring-boot-maven-plugin**:
+  - Renames the original JAR to: `app.jar.original`
+  - Creates a new Spring Boot executable JAR: `app.jar`
+
+Then we can run the application using:
+
+```
+
+java -jar app.jar
+
+
 

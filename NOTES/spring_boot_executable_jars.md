@@ -527,6 +527,7 @@ app.jar
 ├─ META-INF
 │    └─ manifest.mf
 │         └─ Main-Class: JarLauncher
+          └─ Start-Class: Application
 ├─ BOOT-INF
 ├─ classes
 │    ├─ Application.class
@@ -598,9 +599,46 @@ spring-boot-maven-plugin
 
 Then we can run the application using:
 
+java -jar app.jar
+
+
+# Advantages of Spring Boot Executable Jar
+
+- The main advantage of the Spring Boot executable jar is that Spring Boot applications can be containerized/dockerized and shipped easily. This makes implementing microservices-based deployments very easy.
+
+- In a Boot executable project, all dependencies and containers are packaged and are self-executable, so we never need to install any containers to run the application. Applications are self-deployable as well.
+
+- Spring Boot supports only **3 embedded containers**:
+  1. Tomcat  
+  2. Jetty  
+  3. Undertow  
+
+---
+
+# What is Docker
+
+- Generally, to ship an application to a customer, they must set up the environment to run the application:
+
+  **Environment setup includes:**
+  - Operating system installation  
+  - Java installation with a compatible version  
+  - Application server / servlet container  
+  - Configuration  
+
+- **Docker packages the application and its environment dependencies into a single unit.**
+
+- **Docker Image:** Software bits + application bits + configuration bundled and distributed.
+
+- The customer simply runs the command below to start the application:  
 ```
 
-java -jar app.jar
+docker container <imageName>
+
+```
+# Spring Boot Executable Jar output screenshot 
+
+  <img width="1902" height="658" alt="Screenshot 2025-11-29 211329" src="https://github.com/user-attachments/assets/c93e596b-9a0d-485e-8adb-bb60d5b28176" />
+
 
 
 

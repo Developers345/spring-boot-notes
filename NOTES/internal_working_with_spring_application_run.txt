@@ -1,0 +1,47 @@
+How does SpringApplication.run() works, why are not creating ioc container in spring boot application why do we call SpringApplication.run() method, what does it ? 
+
+We are creating IOC container using normal Spring Framework:
+
+ApplicationContext = new AnnotationConfigApplicationContext(Javaconfig.class);
+Toy toy = context.getBean("toy",Toy.class);
+
+Coming to Spring Boot developer will not create the IOC Container Spring Boot itself create IOC Container 
+
+ApplicationContext context = SpringApplication.run(Application.class, args);
+
+What exactly SpringApplication.run(..) do here?
+->The entire Spring Boot echo system has been built on SpringApplication.run(), lot of startup activities that are required to be performed to run an Spring Application has been built as part of SpringApplication class and has been provided to us. So we need to always run an SpringBoot application using SpringApplication class. There are several activities being performed by SpringApplication class: 
+
+ 1. Creates the empty Enviornment object.
+
+ 2. It detects the the application configuration information with which our application classes should be configured and executed and loads into Enviornment object.
+    2.1. Under the current directory of the project we can create a sub-directory called "/config" and place application.properties.
+    2.2. Current directory in the project.
+    2.3. /config package in the application.
+    2.4. application.properties under the classpath of the application and loads it. 
+    Instead of using application.properties we can use the application.yaml also.
+
+ 3. Prints the banner.
+ 
+ 4. Identifies the type of the application by using a property called "webApplicationType". It looks the under the classpath for Web MVC Jar if it is present then webApplicationType will be treated as "WEB" then creates IOC Container "AnnotationConfigServletWebServerApplicationContext". otherwise it checks for WebFlux Jar is present then webApplicationType treats the type of the application as "REACTIVE" and instantiates the ioc container of type "AnnotationConfigReativeWebServerApplicationContext". otherwise it treats as webApplicationType as default and instantiates ioc container of type "AnnotationConfigApplicationContext".
+
+  -> Now based on webApplicationType property it is instantiates the coresponding empty ioc container.
+     webApplicationType is WEB:- AnnotationConfigServletWebServerApplicationContext
+     webApplicationType is REACTIVE:- AnnotationConfigReactiveWebServerApplicationContext
+     webApplicationType is DEFAULT:- AnnotationConfigApplicationContext
+
+ 
+ 5. Every spring framework class in spring boot coresponding autoconfiguration classes will be available like:
+       DriverManagerDataSource(Spring Framework Class) -> DriverManagerDataSourceAutoConfiguration(AutoConfiguration class). here spring boot using Autoconfiguration classes to create the Spring framework classes(another class) so this type of classes called in spring boot  "SpringFactories classes."
+
+  -> SpringFactories are instantiated and registered with ioc container created above.
+
+6. It executes the ApplicationContextInitializer(IOC Container initializer) -> After IOC Container has been created if you want to perform additional logic on that IOC container using ApplicationContext Initializer we can do it.
+
+7. prepareContext means reads the spring bean configuration information metadata of our aplication(spring bean configuration file, Annotations information) and loads the enviornment object into IOC Container.
+
+8. refreshContext means instantiates the bean definition objects based on metadata(spring profiles).
+
+9. Execute the commandLineRunners and ApplicationRunners and startup the application and returns the IOC Container.
+
+10. While performing the above operations at different stages of startup it pubilshes events and executes the listners as well.

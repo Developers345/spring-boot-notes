@@ -447,4 +447,100 @@ public class FluentBuliderApiApplication {
 
 }
 ```
+````md
+# Line-by-Line Explanation of the Code
+
+Below is the explanation of this Spring Boot programmatic banner customization:
+
+```java
+builder.banner((environment, sourceClass, out) -> {
+    try {
+        String printBanner = new String(
+            new ClassPathResource("application-banner.txt")
+                .getInputStream().readAllBytes()
+        );
+        out.println(printBanner);
+    } catch (IOException e) {
+        System.out.println("UNABLE TO LOAD BANNER");
+    }
+});
+````
+
+## 🔍 Line-by-Line Breakdown
+
+### **1. `builder.banner((environment, sourceClass, out) -> {`**
+
+* `builder.banner()`
+  Sets a **custom banner** programmatically for the Spring Boot application.
+* The parameter is a **lambda expression**, implementing the `Banner` functional interface.
+* The lambda receives **three arguments**:
+
+  * `environment` → Gives access to application properties and environment settings.
+  * `sourceClass` → The main application class passed to `SpringApplicationBuilder`.
+  * `out` → A `PrintStream` used to print the banner to the console.
+
+This lambda replaces the default Spring Boot banner logic.
+
+---
+
+### **2. `try {`**
+
+A **try–catch block** is used because file reading can throw an `IOException`.
+
+---
+
+### **3. `String printBanner = new String(new ClassPathResource("application-banner.txt").getInputStream().readAllBytes());`**
+
+Breakdown:
+
+* `new ClassPathResource("application-banner.txt")`
+  Looks for the file `application-banner.txt` inside the **classpath** (`src/main/resources`).
+
+* `.getInputStream()`
+  Opens an input stream to read the file contents.
+
+* `.readAllBytes()`
+  Reads the entire file into a byte array.
+
+* `new String(...)`
+  Converts the byte array into a **String**, storing the banner text in `printBanner`.
+
+This line essentially loads your custom banner text from the resource file.
+
+---
+
+### **4. `out.println(printBanner);`**
+
+* Prints the **custom banner content** to the console.
+* `out` is a `PrintStream` provided by Spring Boot for banner printing.
+
+---
+
+### **5. `} catch (IOException e) {`**
+
+If the file is missing or unreadable, the code enters the `catch` block.
+
+---
+
+### **6. `System.out.println("UNABLE TO LOAD BANNER");`**
+
+Instead of crashing the application, it prints an error message gracefully.
+
+---
+
+### **7. `});`**
+
+Closes the lambda expression and the `banner()` method call.
+
+---
+
+# ✔ Summary
+
+This code **replaces the default Spring Boot banner** by manually reading a text file from the classpath and printing it.
+It uses:
+
+* Lambda expression implementing `Banner`
+* `ClassPathResource` to locate the banner file
+* Streams to read the file’s content
+* Custom error handling
 

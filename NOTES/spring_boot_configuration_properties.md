@@ -891,3 +891,13 @@ public class CustomConfigurationApplication {
 }
 ```
 
+Here is your text in clean **Markdown (.md)** format:
+
+---
+
+## Note
+- **ApplicationContextInitializer** is used **only for Spring Boot applications**.
+- **PropertySourceFactory** can be used in **both Spring Core** and **Spring Boot** applications.
+```
+
+

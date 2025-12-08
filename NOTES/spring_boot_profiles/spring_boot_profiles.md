@@ -331,5 +331,3 @@ public class BootProfilesApplication {
 * Spring Boot first checks the master property/YAML file (`application.properties` / `application.yml`).
 * Based on the value of `spring.profiles.active=test`, Spring Boot looks for `application-test.properties` or `application-test.yml`.
 * It then activates the profile and loads the corresponding configuration values.
-
-```

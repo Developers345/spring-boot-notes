@@ -583,3 +583,55 @@ public class BootExitCodesApplication {
     }
 }
 ```
+## ExitCodeGenerator
+
+In a Spring Boot application, we can customize the exit code of our application using `ExitCodeGenerator`.  
+When we call `SpringApplication.exit(context)` at the end of the application, it will invoke all `ExitCodeGenerator` beans, gather the exit code of the application, and return it.  
+This returned exit code must then be passed to `System.exit(int)`.
+
+---
+
+## ExitCodeExceptionMapper
+
+While bootstrapping a Spring Boot application, if an exception occurs and we want to return an exit code specific to the exception, we use `ExitCodeExceptionMapper` to map an exception to a specific exit code.
+
+When an exception is thrown during startup, the `SpringApplication.run(args)` method receives it.  
+Then Spring checks whether any `ExitCodeExceptionMapper` is present, and if so, it calls:
+
+```java
+int getExitCode(Throwable t)
+````
+
+Inside this method, we need to identify the type of exception and return an appropriate exit code to `SpringApplication.run()`, which eventually terminates the application with that specific exit code.
+
+---
+
+### Notes
+
+* When we use `ExitCodeExceptionMapper`, it means any exception raised inside `SpringApplication.run()` cannot be handled by the developer (because we cannot write a try-catch block around `SpringApplication.run()`), so Spring handles it using the mapper.
+
+* For **application-specific runtime exceptions (custom exceptions)**, we **cannot** use `ExitCodeExceptionMapper`, because the control is with the developer, and we can write exit code logic in the `finally` block.
+
+---
+
+## Example Sample Code for Our Own Exception
+
+```java
+@SpringBootApplication
+class SpringBootApplication {
+   public static void main(String[] args) {
+      ApplicationContext context = SpringApplication.run(SpringBootApplication.class, args);
+
+      try {
+         File inFile = new File("d:\\redme.txt");
+         FileInputStream inFileInputStream = new FileInputStream(inFile);
+
+      } catch (IOException e) {
+         e.printStackTrace();
+      } finally {
+         SpringApplication.exit(context);
+         System.exit(0);
+      }
+   }
+}
+```

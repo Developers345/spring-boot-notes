@@ -186,9 +186,7 @@ public class BootExitCodesApplication {
     }
 }
 ```
-Here is your complete text converted into clean, structured **Markdown (.md) format**:
 
-````md
 # ExitCodeExceptionMapper
 
 ## How to Customize the Exit Code of a Spring Boot Application in Case of Exceptions

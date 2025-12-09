@@ -635,3 +635,13 @@ class SpringBootApplication {
    }
 }
 ```
+
+ExitCodeEvent
+=============
+
+When we call `SpringApplication.exit()` at the end of the application, the `SpringApplication` class `exit()` method will invoke the `ExitCodeGenerators` and gather the exit code of the application.
+
+If the exit code of the application is **non-zero**, then the `SpringApplication.exit()` method publishes an `ExitCodeEvent` with the generated exit code and terminates the program.
+
+This mechanism allows our application to receive the exit code with which it is terminating by writing an `ApplicationListener` for `ExitCodeEvent`.
+```

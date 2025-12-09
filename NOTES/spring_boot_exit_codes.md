@@ -101,16 +101,15 @@ class ApplicationExitCodeGenerator implements ExitCodeGenerator {
 
 ### Behavior of `SpringApplication.exit(context)`:
 
-1. If **no ExitCodeGenerator beans** exist:
+- `SpringApplication.exit(context)`  
+  When called, it will go to the IOC container and get all bean definitions of the type `ExitCodeGenerator`.
 
-   * IOC container is closed
-   * Exit code → `0`
-2. If one or more **ExitCodeGenerator beans** exist:
+  1. **If no `ExitCodeGenerator` bean definitions exist:**  
+     It simply proceeds to close the IOC container, and upon successful close, it returns **0**.
 
-   * Calls `getExitCode()` on each
-   * Collects the **highest negative value** (if any exist) or otherwise the proper code
-   * Closes IOC container
-   * Returns the selected exit code
+  2. **If `ExitCodeGenerator` beans are found:**  
+     The `SpringApplication.exit()` method will invoke `getExitCode()` on each bean definition, collect the **highest negative number** (if one exists), then close the IOC container and return that exit code.
+
 
 ---
 

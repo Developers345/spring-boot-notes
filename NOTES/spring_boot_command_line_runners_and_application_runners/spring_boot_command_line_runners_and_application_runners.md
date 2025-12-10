@@ -1,7 +1,11 @@
 # CommandLineRunners and ApplicationRunners
 
 * **CommandLineRunners** or **ApplicationRunners** are used to perform startup activities in a Spring Boot application.
+                        (or)
 
+* These are used for performing initialization activities during the bootstrapping of a Spring Boot application, **after the IoC container has been fully instantiated** and **before the application begins execution**.
+
+---
 ## What happens inside `SpringApplication.run(Application.class, args)`?
 
 1. Create an empty **Environment** object
@@ -16,6 +20,11 @@
 > **Now we want to perform startup activity before the user starts accessing the application.**
 
 9. The `SpringApplication` class now fetches all bean definitions of type **CommandLineRunner** / **ApplicationRunner** from the refreshed IoC container and calls their `run()` method to perform startup tasks.
+
+---
+
+* The `SpringApplication.run()` method calls the **CommandLineRunners** and **ApplicationRunners** by passing `args` as input **after `refreshContext` has completed successfully**.
+* Once the CommandLineRunners and ApplicationRunners finish execution, the **IoC container is returned to the application**.
 
 ---
 
@@ -94,3 +103,167 @@ But in Spring MVC:
 <img width="1126" height="559" alt="Screenshot 2025-12-10 071048" src="https://github.com/user-attachments/assets/30e2826b-3858-47e4-bc1c-aac66882b193" />
 
 ---
+## Use Case
+
+* If you want to initialize the cache **after the IoC container has been created** and **after `refreshContext` has completed**, then you can load the values into the cache **before the IoC container is returned to the developer**.
+* The best place to perform this activity is **CommandLineRunners / ApplicationRunners**.
+
+---
+
+# Example Program for Spring Boot Application CommandLineRunners and ApplicationRunners
+
+---
+
+## Address.java
+
+```java
+@Component
+@ConfigurationProperties(prefix = "address")
+public class Address {
+
+    protected String addressLine1;
+    protected String AddressLine2;
+    protected String city;
+    protected String state;
+    protected String country;
+
+    public String getAddressLine1() {
+        return addressLine1;
+    }
+
+    public void setAddressLine1(String addressLine1) {
+        this.addressLine1 = addressLine1;
+    }
+
+    public String getAddressLine2() {
+        return AddressLine2;
+    }
+
+    public void setAddressLine2(String addressLine2) {
+        AddressLine2 = addressLine2;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "addressLine1='" + addressLine1 + '\'' +
+                ", AddressLine2='" + AddressLine2 + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", country='" + country + '\'' +
+                '}';
+    }
+}
+```
+
+---
+
+## BootRunnerApplication.java
+
+```java
+@SpringBootApplication
+@PropertySource("classpath:boot-runner.properties")
+public class BootRunnerApplication {
+
+    public static void main(String[] args) {
+
+        ApplicationContext context = SpringApplication.run(BootRunnerApplication.class, args);
+        try {
+            Address address = context.getBean(Address.class);
+            System.out.println(address);
+        } finally {
+            System.exit(SpringApplication.exit(context));
+        }
+    }
+
+    @Component
+    @Order(1)
+    private final class ApplicationContextProfilerCommandLineRunnner
+            implements CommandLineRunner, ApplicationContextAware {
+
+        private ApplicationContext applicationContext;
+        String[] beanNames = null;
+
+        @Override
+        public void run(String... args) throws Exception {
+
+            System.out.println("---------------args--------------------------");
+            Stream.of(args).forEach(System.out::println);
+            System.out.println("---------------args--------------------------");
+
+            System.out.println("************* Bean Names inside IOC Container*********************");
+            beanNames = applicationContext.getBeanDefinitionNames();
+            Stream.of(beanNames).forEach(System.out::println);
+            System.out.println("************* Bean Names inside IOC Container*********************");
+        }
+
+        @Override
+        public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+            this.applicationContext = applicationContext;
+        }
+    }
+
+    @Component
+    @Order(2)
+    private final class ExploreArugmentsApplicationRunner
+            implements ApplicationRunner, ApplicationContextAware {
+
+        private ApplicationContext applicationContext;
+        private String[] beanNames = null;
+        List<String> nonOptionArgs = null;
+        Set<String> optionNames = null;
+
+        @Override
+        public void run(ApplicationArguments args) throws Exception {
+
+            System.out.println("******************* non-option-arguments ******************");
+            nonOptionArgs = args.getNonOptionArgs();
+            nonOptionArgs.stream().forEach(System.out::println);
+            System.out.println("******************* non-option-arguments ******************");
+
+            System.out.println("--------------------- option-arguments --------------------");
+            optionNames = args.getOptionNames();
+            optionNames.stream().forEach(optionName -> {
+                System.out.println(optionName + " : " + args.getOptionValues(optionName).get(0));
+            });
+            System.out.println("--------------------- option-arguments --------------------");
+
+            System.out.println(">>>>>>>>>>>>>>>>>>> Bean Definitions in IOC Container Application Runner >>>>>>>>>>>>>>>>>>>");
+            beanNames = applicationContext.getBeanDefinitionNames();
+            Stream.of(beanNames).forEach(System.out::println);
+            System.out.println(">>>>>>>>>>>>>>>>>>> Bean Definitions in IOC Container Application Runner >>>>>>>>>>>>>>>>>>>");
+        }
+
+        @Override
+        public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+            this.applicationContext = applicationContext;
+        }
+    }
+}
+```
+
+

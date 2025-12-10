@@ -55,6 +55,9 @@ java -jar boot-cmd-line-runners.jar 10 20 -log=debug
 
 When a web application (Servlet-based) is deployed, if you want to perform some initialization **before servlet objects are instantiated**, you use a **ServletContextListener**.
 
+### Servlet Applications(Pictorial Representation)
+<img width="854" height="599" alt="Screenshot 2025-12-10 071025" src="https://github.com/user-attachments/assets/8e0d2c24-aedb-4868-942f-6974a619389d" />
+
 ---
 
 # Example 2: Spring Web MVC Flow
@@ -85,5 +88,9 @@ But in Spring MVC:
 * Initialization activities you want to perform after IoC container creation and bean definition as well  cannot be done with `ServletContextListener`.
 
 👉 Therefore, we use **CommandLineRunners / ApplicationRunners** in Spring Boot for such initialization.
+
+
+### SpringWeb Mvc Application(Pictorial Representation)
+<img width="1126" height="559" alt="Screenshot 2025-12-10 071048" src="https://github.com/user-attachments/assets/30e2826b-3858-47e4-bc1c-aac66882b193" />
 
 ---

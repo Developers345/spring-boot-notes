@@ -443,3 +443,12 @@ com.jimage.bean.autoconfigure.JImageConverterAutoConfiguration
 * Correct file → Auto-configurations **load automatically**
 
 
+## Pictorial Representation -1
+<img width="1919" height="752" alt="Screenshot 2026-01-01 153820" src="https://github.com/user-attachments/assets/f67c3b98-df98-4388-a473-3c89ad78e902" />
+
+## Pictorial Representation -2
+<img width="447" height="363" alt="Screenshot 2026-01-01 153934" src="https://github.com/user-attachments/assets/90815cca-2424-43ae-927a-55e15ed43932" />
+
+## Pictorial Representation -3
+<img width="1629" height="736" alt="Screenshot 2026-01-01 153955" src="https://github.com/user-attachments/assets/d3a6dbf7-5854-4f29-8f7d-511f65ab9e3c" />
+

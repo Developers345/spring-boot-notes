@@ -272,12 +272,14 @@ public class ZippedImageIoImpl implements ImageIo {
 
 ---
 
+## Spring data jpa parctical program github link:
+https://github.com/Developers345/practical-spring-data-jpa-program.git
+
 ## Key Benefits of Proxy Design Pattern
 
 * Avoids code duplication
 * Follows **Single Responsibility Principle**
 * Enables **runtime behavior extension**
 * Clean separation of core logic and additional responsibilities
-
 
 

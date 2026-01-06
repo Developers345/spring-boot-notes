@@ -53,3 +53,42 @@
 ## Pictorial representation 
 <img width="1919" height="612" alt="Screenshot 2026-01-06 104946" src="https://github.com/user-attachments/assets/5ab8dea5-ad79-4b94-ae83-ee780424bc45" />
 
+
+## Front Controller (Struts & Spring MVC)
+
+- To overcome the above **Servlet/JSP application problems**, **Struts** and **Spring MVC** introduced the concept of a **Front Controller**.
+
+---
+
+## What is Front Controller?
+
+- **Front Controller** is a **design pattern**.
+- Front Controller takes care of the following responsibilities:
+
+### Responsibilities of Front Controller
+
+1. Acts as a **single entry point** or **gateway** for receiving all requests into an application.
+2. Provides **centralized control** over all incoming requests, such as:
+   - Whether the request is valid or not
+   - Handling invalid requests
+3. Mandatory system services such as:
+   - Request wrapping
+   - Data validations
+   - Other pre-processing tasks  
+   are handled by the Front Controller.
+4. **View management and navigation management** are handled centrally by the Front Controller.
+
+---
+
+## Front Controller in Frameworks
+
+- **Struts Framework**  
+  - `ActionServlet` acts as the **Front Controller**.
+
+- **Spring MVC Framework**  
+  - `DispatcherServlet` acts as the **Front Controller**.
+    
+## Pictorial representation 
+<img width="1914" height="742" alt="Screenshot 2026-01-06 105103" src="https://github.com/user-attachments/assets/d8968378-402f-4077-ae11-cb3c967ba78d" />
+
+

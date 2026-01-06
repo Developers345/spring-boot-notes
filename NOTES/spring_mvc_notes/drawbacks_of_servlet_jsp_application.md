@@ -88,7 +88,9 @@
 - **Spring MVC Framework**  
   - `DispatcherServlet` acts as the **Front Controller**.
     
-## Pictorial representation 
+## Pictorial representation - 1
 <img width="1914" height="742" alt="Screenshot 2026-01-06 105103" src="https://github.com/user-attachments/assets/d8968378-402f-4077-ae11-cb3c967ba78d" />
 
+## Pictorial representation - 2
+<img width="1445" height="493" alt="Screenshot 2026-01-06 121202" src="https://github.com/user-attachments/assets/f8aab3db-cb73-4a60-9537-bc77f2e436f8" />
 

@@ -32,6 +32,4 @@
 - The **ViewResolver** takes the logical view name, creates the appropriate
   **View object**, and returns it to the DispatcherServlet.
 
-- Finally, the **DispatcherServlet** renders the resolved view and sends the
-  response back to the client.
-```
+- Finally, the **DispatcherServlet** renders the resolved view and sends the response back to the client.

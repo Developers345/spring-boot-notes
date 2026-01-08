@@ -510,3 +510,5 @@ class ParcelController {
 # Pictorial representation 
 <img width="1911" height="751" alt="Screenshot 2026-01-08 081300" src="https://github.com/user-attachments/assets/1f8d8265-9921-4084-acd9-8eb8df120f94" />
 
+# Spring web mvc pratical program annotation driven approach 
+https://github.com/Developers345/practical-spring-web-mvc-annotation-driven-program.git

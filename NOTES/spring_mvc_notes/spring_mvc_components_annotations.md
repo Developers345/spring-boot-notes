@@ -39,6 +39,10 @@ into the **ServletContext** during or after deployment.
 - Once the **ServletContext** object is created successfully, the **web application deployment is considered successful**.
 
 
+# Pictorial representation 
+<img width="1911" height="516" alt="Screenshot 2026-01-07 190516" src="https://github.com/user-attachments/assets/5cf90bd2-6f3d-4e78-8216-42e6ea26e71f" />
+
+
 # The Flow of Configured DispatcherServlet and ContextLoaderListener
 
 ---
@@ -209,6 +213,8 @@ public class ParcelTrackingWebApplicationInitializer
     }
 }
 ````
+# Pictorial representation 
+<img width="1885" height="598" alt="Screenshot 2026-01-07 192212" src="https://github.com/user-attachments/assets/c6c7c657-8763-4e25-b2c1-c5c70c9dbd71" />
 
 ---
 
@@ -501,4 +507,6 @@ class ParcelController {
   * Makes the object available to the controller method
 
 
+# Pictorial representation 
+<img width="1911" height="751" alt="Screenshot 2026-01-08 081300" src="https://github.com/user-attachments/assets/1f8d8265-9921-4084-acd9-8eb8df120f94" />
 

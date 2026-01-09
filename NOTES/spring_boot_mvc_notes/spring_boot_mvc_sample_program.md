@@ -242,10 +242,9 @@ public class RapidoBootApplication {
 
 ```
 http://localhost:8080/rapido-boot/bike
-
-<img width="355" height="352" alt="Screenshot 2026-01-09 181638" src="https://github.com/user-attachments/assets/5fbe062e-a64a-4a14-b93f-c94c96ace300" />
-
 ```
+<img width="355" height="352" alt="Screenshot 2026-01-09 181638" src="https://github.com/user-attachments/assets/5ec00db7-6cd7-4c90-bbab-988e5a9e39be" />
+
 ## Pictorial Representation 
 <img width="1603" height="492" alt="Screenshot 2026-01-08 205939" src="https://github.com/user-attachments/assets/3bce24f6-429f-4718-a963-1e185306b7f5" />
 

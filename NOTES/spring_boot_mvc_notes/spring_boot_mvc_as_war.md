@@ -1,44 +1,20 @@
-# How to Deploy a Spring MVC Boot Application as WAR
+# How to Deploy Spring MVC Boot Application as WAR
 
-## Overview
+- In general, a **Spring Boot application** runs as a **JAR** file using  
+  `SpringApplication.run(Config.class, args);`  
+  Then the Spring Boot ecosystem will be bootstrapped.
 
-- In general, a **Spring Boot application** runs as a **JAR** file using:
+- When deploying a Spring Boot application in the **WildFly application server**, note that WildFly is a **non-embedded servlet container**.  
+  Therefore, we need to deploy the Spring Boot MVC application as a **WAR** file only.
 
-  ```java
-  SpringApplication.run(Config.class, args);
-````
+- If we deploy the Spring Boot application as a WAR, the **Servlet Container** treats it as a normal WAR deployment and tries to register only **WebApplication components**.
 
-When this method is executed, the Spring Boot ecosystem starts with an **embedded servlet container** (like Tomcat).
-
-* When deploying a Spring Boot application to a **WildFly application server**, things are different.
-  WildFly is a **non-embedded (external) servlet container**, so the application **must be deployed as a WAR** file.
-
-* When a Spring Boot application is packaged as a WAR and deployed to an external servlet container:
-
-  * The servlet container treats it as a **normal WAR deployment**
-  * It attempts to register **web application components** (Servlets, Filters, Listeners, etc.)
-
-* However, in a Spring Boot WAR:
-
-  * There is **no `web.xml`**
-  * Application bootstrapping normally happens through:
-
-    ```java
-    SpringApplication.run(Config.class, args);
-    ```
-
-* Therefore, we need a way to trigger the **same bootstrapping logic** when the WAR is deployed to an external servlet container.
-
----
+- However, in a Spring Boot WAR package, we do **not** have a `web.xml`.  
+  Instead, application bootstrapping happens through  
+  `SpringApplication.run(Config.class, args);`  
+  Somehow, the same bootstrap logic needs to be executed by the servlet container.
 
 ## What Should We Do to Deploy a Spring Boot Application as WAR?
-
-To support WAR deployment, the main application class must:
-
-1. **Extend `SpringBootServletInitializer`**
-2. **Override the `configure()` method**
-
-### Example
 
 ```java
 @SpringBootApplication
@@ -53,54 +29,23 @@ class Application extends SpringBootServletInitializer {
         return builder.sources(Application.class);
     }
 }
-```
+````
 
----
-
-## How This Works Internally
-
-### Internal Code of `SpringBootServletInitializer`
+## Internal Code for SpringBootServletInitializer
 
 ```java
-abstract class SpringBootServletInitializer
-        implements WebApplicationInitializer {
+abstract class SpringBootServletInitializer implements WebApplicationInitializer {
 
     public void onStartup(ServletContext context) {
-
-        SpringApplicationBuilder builder =
-                new SpringApplicationBuilder();
-
+        SpringApplicationBuilder builder = new SpringApplicationBuilder();
         builder = configure(builder);
-
-        SpringApplication springApplication =
-                builder.build();
-
+        SpringApplication springApplication = builder.build();
         springApplication.run(args);
     }
 
-    protected abstract SpringApplicationBuilder
-            configure(SpringApplicationBuilder builder);
+    protected abstract SpringApplicationBuilder configure(SpringApplicationBuilder builder);
 }
 ```
-
----
-
-## Key Points to Remember
-
-* `SpringBootServletInitializer` acts as a **replacement for `web.xml`**
-* The servlet container calls `onStartup()` during WAR deployment
-* `configure()` tells Spring Boot **which application class to bootstrap**
-* This ensures the same behavior as `SpringApplication.run()` in a JAR-based deployment
-
----
-
-✅ With this setup, your **Spring Boot MVC application can run both as**:
-
-* A **standalone JAR**
-* A **WAR deployed to external servers like WildFly**
-
-```
-````
 
 # Example Program for Spring Boot Application Deployed as WAR
 
@@ -295,6 +240,7 @@ server:
 <html>
 <body>
 <h2>Bike List</h2>
+
 <table border="1">
     <tr>
         <th>Name</th>
@@ -309,6 +255,7 @@ server:
         </tr>
     </c:forEach>
 </table>
+
 </body>
 </html>
 ```
@@ -382,11 +329,13 @@ public class RapidoBootApplication extends SpringBootServletInitializer {
 
     <dependencies>
 
+        <!-- Spring Data JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
+        <!-- Spring Web (Tomcat excluded for WAR) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -398,6 +347,7 @@ public class RapidoBootApplication extends SpringBootServletInitializer {
             </exclusions>
         </dependency>
 
+        <!-- MySQL Driver -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
@@ -436,11 +386,13 @@ public class RapidoBootApplication extends SpringBootServletInitializer {
 
 ---
 
-## Output URL
+## Output
 
 ```
 http://localhost:8080/rapido-boot/bike
 ```
+
 ## Pictorial Representation 
-<img width="1089" height="362" alt="Screenshot 2026-01-10 175717" src="https://github.com/user-attachments/assets/9a72465e-5474-4da5-b711-ee36ef93093b" />
+<img width="1089" height="362" alt="Screenshot 2026-01-10 175717" src="https://github.com/user-attachments/assets/aca660df-5939-4725-b760-00146a15995e" />
+
 

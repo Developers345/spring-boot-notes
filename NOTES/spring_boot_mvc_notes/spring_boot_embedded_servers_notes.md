@@ -62,3 +62,131 @@ If two Spring Boot web applications are running, then **two separate servlet con
 
 ## Pictorial Presentation 
 <img width="1873" height="547" alt="Screenshot 2026-01-09 180338" src="https://github.com/user-attachments/assets/b857da5b-9850-41c9-958d-6013190c8437" />
+
+
+# Example Code for Internal Embedded Servers in Spring Boot
+
+---
+
+## PingServlet.java
+
+```java
+package com.ets.servlet;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+@WebServlet(urlPatterns = "/ping")
+public class PingServlet extends HttpServlet {
+
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        req.getRequestDispatcher("/ping.jsp").forward(req, resp);
+    }
+}
+````
+
+---
+
+## TomcatRun.java
+
+```java
+package com.ets.startup;
+
+import org.apache.catalina.Context;
+import org.apache.catalina.LifecycleException;
+import org.apache.catalina.WebResourceRoot;
+import org.apache.catalina.core.StandardContext;
+import org.apache.catalina.startup.ContextConfig;
+import org.apache.catalina.startup.Tomcat;
+import org.apache.catalina.webresources.DirResourceSet;
+import org.apache.catalina.webresources.StandardRoot;
+
+import java.io.File;
+
+public class TomcatRun {
+
+    public static void main(String[] args)
+            throws LifecycleException, InterruptedException {
+
+        String webAppDirectoryLocation = "src/main/webapp";
+        String targetClassLocation = "target/classes";
+
+        Tomcat tomcat = new Tomcat();
+        tomcat.setPort(8080);
+
+        StandardContext standardContext =
+                (StandardContext) tomcat.addWebapp(
+                        "/",
+                        new File(webAppDirectoryLocation).getAbsolutePath()
+                );
+
+        WebResourceRoot webResourceRoot = new StandardRoot(standardContext);
+        webResourceRoot.addPreResources(
+                new DirResourceSet(
+                        webResourceRoot,
+                        "/WEB-INF/classes",
+                        new File(targetClassLocation).getAbsolutePath(),
+                        "/"
+                )
+        );
+
+        standardContext.setResources(webResourceRoot);
+
+        tomcat.getConnector();
+        tomcat.start();
+        tomcat.getServer().await();
+    }
+}
+```
+
+---
+
+## Note
+
+In **embedded Tomcat**, the following line is **MANDATORY**:
+
+```java
+tomcat.getConnector();
+```
+
+**Without this line:**
+
+* Context startup is incomplete
+* JSP initialization triggers lifecycle failure
+* Tomcat throws `LifecycleException` during context start
+
+---
+
+## ping.jsp
+
+```html
+<html>
+<head>
+  <title>Ping</title>
+</head>
+<body>
+  <h2>Up!</h2>
+</body>
+</html>
+```
+
+---
+
+## Output
+
+```text
+http://localhost:8080/ping
+```
+
+**Result:**
+
+```text
+Up!
+```

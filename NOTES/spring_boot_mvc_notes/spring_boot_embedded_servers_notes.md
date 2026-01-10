@@ -64,7 +64,7 @@ If two Spring Boot web applications are running, then **two separate servlet con
 <img width="1873" height="547" alt="Screenshot 2026-01-09 180338" src="https://github.com/user-attachments/assets/b857da5b-9850-41c9-958d-6013190c8437" />
 
 
-# Example Code for Internal Embedded Servers in Spring Boot
+# Example Code for Internal Embedded Servers
 
 ---
 

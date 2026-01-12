@@ -182,4 +182,3 @@ POST : http://localhost:8080/actuator/features
 
 * Data is **sent and received in JSON format**.
 
-```

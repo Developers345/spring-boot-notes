@@ -571,4 +571,112 @@ JSON Response
 * Together they form the **foundation of Spring REST APIs**
 
 ---
+Idempotent
+----------
+
+**Idempotent** means:
+
+> If the same request is sent **once or multiple times**, the **final effect on the server resource remains the same**.
+
+In other words, repeating an idempotent request does **not create additional or unintended side effects** on the resource.
+
+---
+
+### Why Idempotency Matters
+- Helps in **network failure recovery**
+- Safe for **retries** (client can resend the request if it is unsure whether the first request succeeded)
+- Ensures **data consistency**
+
+---
+
+### Idempotent HTTP Methods
+
+The following HTTP methods are **idempotent** because the client sends the request with a **resource identifier (ID)**, allowing the server to clearly understand whether the request is new or a repeat.
+
+#### 1. GET
+- Used to **read** data
+- Does **not modify** the resource
+- Sending it multiple times returns the same result
+
+**Example**
+```http
+GET /users/101
+````
+
+➡️ Fetches user details every time, without changing anything.
+
+---
+
+#### 2. PUT
+
+* Used to **create or completely replace** a resource
+* Repeating the same PUT request results in the **same final state**
+
+**Example**
+
+```http
+PUT /users/101
+{
+  "name": "Gireesh",
+  "role": "Admin"
+}
+```
+
+➡️ No matter how many times this request is sent, user `101` will have the same data.
+
+---
+
+#### 3. DELETE
+
+* Used to **remove** a resource
+* Deleting an already deleted resource has **no additional effect**
+
+**Example**
+
+```http
+DELETE /users/101
+```
+
+➡️ After deletion, repeating the request still results in the resource being deleted.
+
+---
+
+### Non-Idempotent HTTP Method
+
+#### POST
+
+* **POST is NOT idempotent**
+* Each request usually **creates a new resource**
+* Sending the same POST request multiple times results in **multiple changes**
+
+**Example**
+
+```http
+POST /users
+{
+  "name": "Gireesh"
+}
+```
+
+➡️ Each request creates a **new user**, even if the data is identical.
+
+---
+
+### Summary Table
+
+| HTTP Method | Idempotent | Reason                                |
+| ----------- | ---------- | ------------------------------------- |
+| GET         | ✅ Yes      | Read-only, no state change            |
+| PUT         | ✅ Yes      | Replaces resource with same state     |
+| DELETE      | ✅ Yes      | Removes resource (no repeated effect) |
+| POST        | ❌ No       | Creates a new resource each time      |
+
+---
+
+### Simple One-Line Definition
+
+> **Idempotent operations can be safely repeated without changing the final result.**
+
+
+
 

@@ -102,4 +102,4 @@ sticky-session = true
 - Sticky sessions solve session consistency but reduce availability.
 - Session replication improves availability but impacts scalability.
 - A well-designed JEE cluster balances **performance, availability, and scalability**.
-```
+

@@ -158,3 +158,67 @@ Additional characteristics:
 ---
 #### Pictorial representation - Scaling the monolithic application in j2ee servers
 <img width="624" height="386" alt="scalabilty of monolithic application" src="https://github.com/user-attachments/assets/cd05029a-4bb2-461c-88cd-3394802191b4" />
+
+## 4. Large Codebase Makes Development Difficult
+-------------------------------------------------------------------------------------------------
+
+- As the codebase grows, developers find it difficult to:
+  - Understand the overall application structure
+  - Identify clear boundaries between modules
+- **Module boundaries** become unclear, leading to tight coupling.
+- **Code reusability** becomes complex because:
+  - Developers cannot easily understand the entire system.
+- **Debugging and fixing issues** becomes very difficult due to:
+  - Large interconnected codebase
+  - Unclear ownership of modules
+
+---
+
+## 5. Scaling the Team Size Is Difficult
+---------------------------------------
+
+- As the application grows:
+  - More developers are required.
+  - Teams are divided based on functional areas.
+- Monolithic architecture does **not support independent teams**:
+  - All modules are packaged as a **single deployable artifact**.
+  - Even if one team finishes its changes:
+    - They must wait for other teams to complete their work.
+    - Testing and release can only happen once **all changes are merged**.
+- This leads to:
+  - Delayed releases
+  - Coordination overhead
+  - Reduced development speed
+
+---
+
+## 6. Long-Term Commitment to a Technology Stack
+------------------------------------------------
+
+- In a monolithic application:
+  - The entire system shares the same technology stack.
+- Upgrading or migrating technologies is difficult because:
+  - The whole application must be migrated at once.
+- Risk involved:
+  - High effort
+  - High cost
+  - Potential system-wide failures
+
+---
+
+## 7. Continuous Integration and Continuous Delivery (CI/CD)
+------------------------------------------------------------
+
+- CI/CD requires:
+  - Frequent builds
+  - Frequent deployments
+- In monolithic architecture:
+  - Frequent deployment is difficult due to the large application size.
+  - Even small changes require rebuilding and redeploying the entire system.
+- As a result:
+  - Implementing true CI/CD becomes impractical.
+  - Release cycles become longer and less flexible.
+
+---
+
+

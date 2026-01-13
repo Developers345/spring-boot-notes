@@ -106,4 +106,5 @@ Each service should comply with the following factors:
 
 
 ## Pictorial Representation of micro-service architecture 
-<img width="1361" height="558" alt="Micro Service Architecture" src="https://github.com/user-attachments/assets/3ee08471-1730-4ad6-9606-5aab8dad9639" />
+<img width="1361" height="558" alt="Micro Service Architecture" src="https://github.com/user-attachments/assets/4c5bdc56-655d-4f68-bb71-2c3e0e616814" />
+

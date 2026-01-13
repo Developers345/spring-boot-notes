@@ -69,7 +69,16 @@ Some container-level services still typically require JEE container support:
 
 1. Scalability  
 2. Transactionality
-   
+
+## Scalability
+---------------
+
+- For an application, if a large number of users try to access it, will the application be able to handle the load when it is deployed on a single machine?
+
+- **No.** The application will not be able to handle large volumes of requests because the underlying system on which the application is running will eventually run out of computing resources (CPU, memory, I/O, etc.).
+
+- Therefore, we need to **scale up** the application to handle increased load.
+
 ## Pictorial Representation of monolithic sigle deployable artifact
 <img width="1893" height="669" alt="Monolithic single deployable artifact" src="https://github.com/user-attachments/assets/9486105d-6d82-417a-8b7b-199de0d94a97" />
 

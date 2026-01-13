@@ -128,4 +128,3 @@ a. Applications are deployed and accessed on Managed Servers.
   3. Load Balancer consults cluster status
   4. Traffic is routed to an available Managed Server
      - Using algorithms like **Round Robin**
-```

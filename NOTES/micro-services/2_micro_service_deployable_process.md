@@ -37,7 +37,7 @@
   - To receive the service instance information from Eureka
   - To route requests based on load-balancing algorithms such as **Round Robin**
 
-- **Zuul** acts as a **client-side API Gateway**, which sends client requests to the appropriate backend services.
+- **Zuul** acts as a **client-side API**, which sends client requests to the appropriate backend services.
 
 - **Hystrix** is a **Circuit Breaker**, used to handle failures gracefully and prevent cascading failures in micro-services.
 

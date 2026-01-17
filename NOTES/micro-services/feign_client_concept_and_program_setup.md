@@ -254,6 +254,146 @@ eureka:
   * Clean microservice communication
 
 ---
+# Feign Client
+-------------
+
+→ **Feign Client** is a third-party library that **Spring Boot integrates and provides**
+as **Spring Cloud OpenFeign**.
+
+→ Feign Client supports **declarative client programming** for calling remote
+microservices.
+
+---
+
+## Key Characteristics
+-----------------------
+
+→ Feign Client follows a **declarative approach**, meaning:
+- No manual HTTP client code
+- No boilerplate REST call logic
+- No direct usage of `RestTemplate` or `WebClient` for service-to-service calls
+
+---
+
+## IoC Container Behavior
+-------------------------
+
+→ During **IoC container creation**:
+- Spring scans for interfaces annotated with `@FeignClient`
+- For each such interface:
+  - Spring creates a **runtime proxy implementation**
+  - Registers it as a Spring bean
+
+→ These proxy objects handle:
+- Service discovery
+- Load balancing
+- HTTP communication
+- Serialization and deserialization
+
+---
+
+## Replacing RestTemplate
+-------------------------
+
+→ With Feign Client:
+- We **do not need** to invoke microservices using `RestTemplate`
+- Method calls on Feign interfaces internally perform REST calls
+
+Example concept:
+```text
+customerService.getCustomers();
+````
+
+→ Internally translated into an HTTP request.
+
+---
+
+## Declarative Programming Model
+
+---
+
+→ Feign Client allows us to:
+
+* Define an **interface**
+* Describe remote service endpoints as methods
+* Decorate methods with Spring MVC annotations
+
+→ We only describe **what to call**, not **how to call**.
+
+---
+
+## Example Concept
+
+---
+
+```java
+@FeignClient(name = "user-service")
+public interface UserService {
+
+    @GetMapping("/users")
+    List<User> getUsers();
+}
+```
+
+→ No implementation class required
+→ Feign generates implementation at runtime
+
+---
+
+## Customization & Configuration
+
+---
+
+Feign Client is highly configurable and customizable:
+
+### 1. Encoders
+
+* Convert Java objects into HTTP request bodies
+* Example: JSON request serialization
+
+### 2. Decoders
+
+* Convert HTTP responses into Java objects
+* Example: JSON → POJO mapping
+
+### 3. Loggers
+
+* Log request and response details
+* Useful for debugging and monitoring
+
+### 4. Load Balancing
+
+* Integrates with:
+
+  * Spring Cloud LoadBalancer
+  * Eureka service discovery
+* Distributes requests across service instances
+
+---
+
+## Advantages of Feign Client
+
+---
+
+* Declarative and clean code
+* Less boilerplate
+* Easy integration with Eureka
+* Built-in load balancing
+* Improves readability and maintainability
+
+---
+
+## Summary
+
+---
+
+* Feign Client is a **declarative REST client**
+* Eliminates manual REST invocation code
+* Uses interfaces + annotations
+* Runtime proxy creation by IoC container
+* Highly configurable and extensible
+
+
 ## Pictorial Representation - 1
 <img width="1348" height="491" alt="fiegn setup completed" src="https://github.com/user-attachments/assets/dbb4cbfd-7030-49c9-85ca-d44cfe2af057" />
 

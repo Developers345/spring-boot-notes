@@ -165,4 +165,8 @@ NoSQL databases solve these problems by providing:
 - **NoSQL** → Best for scalability, flexibility, and high-performance distributed systems  
 
 👉 Choice depends on **application requirements**, not trends.
-```
+
+## Pictorial Representation 
+<img width="3568" height="4172" alt="22-OCT-2021-RDS-DYANMO" src="https://github.com/user-attachments/assets/ea7a9a79-4aa3-4252-bd64-553fc7f19f37" />
+
+

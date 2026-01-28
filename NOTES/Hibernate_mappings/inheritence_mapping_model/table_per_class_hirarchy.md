@@ -564,3 +564,5 @@ AutomobileInsurancePlan(
   vehicleType=4 Wheeler
 )
 ```
+## Pictorial Representation 
+<img width="3568" height="4172" alt="14-JUN-2021-TPC" src="https://github.com/user-attachments/assets/ef395e1e-7d37-404b-8e20-addc7e2cee9c" />

@@ -77,7 +77,7 @@ In this case:
 
 * Multiple **object classes** (`Person`, `Address`)
 * Are stored in a **single relational table** (`person`)
-* Another example is table_per_class hirarchy in inheritence mapping model.
+* Another example solution is table_per_class hirarchy in inheritence mapping model.
 
 Managing this difference in structure is called **Granularity Mis-Match**.
 

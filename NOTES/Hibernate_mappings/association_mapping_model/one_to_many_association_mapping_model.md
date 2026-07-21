@@ -79,3 +79,7 @@ In this model:
 
 * Object associations are mapped using **foreign keys**, **join tables**, or **shared primary keys**.
 * Each type of object association must be carefully mapped into an equivalent relational structure.
+
+## Pictorial Representation - one-to-many association model
+<img width="3568" height="4172" alt="24-JUN-2021-ONE-TO-MANY" src="https://github.com/user-attachments/assets/a54e8ef8-8db7-4070-a957-7f32422dc2c1" />
+

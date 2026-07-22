@@ -83,3 +83,7 @@ In this model:
 ## Pictorial Representation - one-to-many association model
 <img width="3568" height="4172" alt="24-JUN-2021-ONE-TO-MANY" src="https://github.com/user-attachments/assets/a54e8ef8-8db7-4070-a957-7f32422dc2c1" />
 
+## Pictorial Representation - one-to-many association model - 1
+<img width="3568" height="4172" alt="26-JUN-2021-ONE-TO-MANY" src="https://github.com/user-attachments/assets/27f31e54-9b2e-4013-97e3-78157757eff7" />
+
+
